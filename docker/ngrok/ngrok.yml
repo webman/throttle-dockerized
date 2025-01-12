@@ -1,0 +1,10 @@
+version: 3
+
+agent:
+  authtoken: your_token
+
+endpoints:
+  - name: throttle
+    url: http://
+    upstream:
+      url: webserver:80
