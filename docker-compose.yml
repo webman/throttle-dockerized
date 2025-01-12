@@ -27,7 +27,6 @@ services:
     image: ghcr.io/webman/throttle
     container_name: throttle
     restart: always
-    user: www-data
     depends_on:
       database:
         condition: service_healthy
