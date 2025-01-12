@@ -24,7 +24,8 @@ services:
     restart: always
 
   throttle:
-    image: ghcr.io/webman/throttle
+    build:
+      context: throttle
     container_name: throttle
     restart: always
     user: www-data
@@ -32,6 +33,7 @@ services:
       database:
         condition: service_healthy
     volumes:
+      - "./throttle:/var/www/throttle"
       - "./docker/php/php.ini:/usr/local/etc/php/php.ini"
       - "./docker/php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
       - "./docker/php/php-fpm.conf:/etc/php/5.6/fpm/php-fpm.conf"
