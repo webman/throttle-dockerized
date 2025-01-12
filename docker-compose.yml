@@ -27,15 +27,20 @@ services:
     image: ghcr.io/webman/throttle
     container_name: throttle
     restart: always
+    user: www-data
     depends_on:
       database:
         condition: service_healthy
     volumes:
-      - "./throttle:/var/www/throttle"
       - "./docker/php/php.ini:/usr/local/etc/php/php.ini"
       - "./docker/php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
       - "./docker/php/php-fpm.conf:/etc/php/5.6/fpm/php-fpm.conf"
       - "./docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf"
+    entrypoint: ["/bin/sh","-c"]
+    command:
+      - |
+        php app/console.php migrations:migrate
+        /usr/bin/supervisord
 
   webserver:
     image: nginx:stable-alpine
