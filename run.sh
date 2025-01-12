@@ -61,3 +61,12 @@ else
     echo -e "${RED}Failed to change folder permissions.${NOCOLOR}"
     exit 1
 fi
+
+# Replace old binaries with own compiled
+docker exec throttle cp /var/www/throttle/bin/compiled/minidump_stackwalk /var/www/throttle/bin/
+if [ $? -eq 0 ]; then
+    echo -e "${GREEN}Compiled binaries copied successfully.${NOCOLOR}"
+else
+    echo -e "${RED}Failed to copy compiled binaries.${NOCOLOR}"
+    exit 1
+fi
