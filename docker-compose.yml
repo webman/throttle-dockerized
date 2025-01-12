@@ -28,6 +28,8 @@ services:
     container_name: throttle
     restart: always
     depends_on:
+      breakpad:
+        condition: service_completed_successfully
       database:
         condition: service_healthy
     volumes:
@@ -36,6 +38,7 @@ services:
       - "./docker/php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
       - "./docker/php/php-fpm.conf:/etc/php/5.6/fpm/php-fpm.conf"
       - "./docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf"
+      - "breakpad-binaries:/var/www/throttle/bin/compiled"
 
   webserver:
     image: nginx:stable-alpine
@@ -63,8 +66,16 @@ services:
     environment:
       NGROK_CONFIG: "/etc/ngrok.yml"
 
+  breakpad:
+    build:
+      context: docker/breakpad
+    container_name: breakpad
+    volumes:
+      - "breakpad-binaries:/app/bin"
+
 volumes:
   database:
+  breakpad-binaries:
 
 
 
