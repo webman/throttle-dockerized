@@ -35,6 +35,7 @@ services:
       - "./docker/php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
       - "./docker/php/php-fpm.conf:/etc/php/5.6/fpm/php-fpm.conf"
       - "./docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf"
+      - "throttle-files:/var/www/throttle"
     entrypoint: ["/bin/sh","-c"]
     command:
       - |
@@ -52,7 +53,7 @@ services:
       - throttle
     volumes:
       - "./docker/nginx/conf.d/:/etc/nginx/conf.d/:ro"
-      - "./throttle:/var/www/throttle"
+      - "throttle-files:/var/www/throttle"
 
   ngrok:
     image: ngrok/ngrok:alpine
@@ -69,3 +70,4 @@ services:
 
 volumes:
   database:
+  throttle-files:
